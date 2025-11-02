@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* 🌗 Optional: If you're not doing dark mode yet, you can remove this line */
+/* @custom-variant dark (&:is(.dark *)); */
 
+/* ========== DESIGN SYSTEM THEME (Audiophile) ========== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Colors */
+  --color-primary: #d87d4a;
+  --color-primary-light: #fbaf85;
+  --color-dark: #101010;
+  --color-black: #000000;
+  --color-gray-200: #f1f1f1;
+  --color-gray-100: #fafafa;
+  --color-white: #ffffff;
+  --color-border: #f1f1f1;
+  --color-input: #f1f1f1;
+  --color-ring: #d87d4a; /* highlight color for focus rings */
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    font-family: "Manrope", sans-serif;
+    background-color: var(--color-gray-100);
+    color: var(--color-dark);
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-[var(--color-gray-100)] text-[var(--color-dark)];
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ========== TYPOGRAPHY SCALE ========== */
+@layer components {
+  .h1 {
+    @apply text-[56px] font-bold leading-[58px] tracking-[2px] uppercase;
+  }
+  .h2 {
+    @apply text-[40px] font-bold leading-[44px] tracking-[1.5px] uppercase;
+  }
+  .h3 {
+    @apply text-[32px] font-bold leading-[36px] uppercase;
+  }
+  .h4 {
+    @apply text-[28px] font-bold leading-[38px] uppercase;
+  }
+  .h5 {
+    @apply text-[24px] font-bold leading-[33px] uppercase;
+  }
+  .h6 {
+    @apply text-[18px] font-bold leading-[24px] uppercase;
+  }
+  .body {
+    @apply text-[15px] leading-[25px] font-medium;
+  }
+  .subtitle {
+    @apply text-[13px] font-semibold tracking-[1px];
+  }
 }
