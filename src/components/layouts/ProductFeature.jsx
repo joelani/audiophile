@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function ProductFeature({
   title,
@@ -10,14 +12,19 @@ export default function ProductFeature({
   buttonText = "See Product",
   href = "#",
   isNew = false,
+  price, // optional
+  quantity, // optional
 }) {
+  const [count, setCount] = useState(quantity || 1);
+
+  const increment = () => setCount((prev) => prev + 1);
+  const decrement = () => setCount((prev) => (prev > 1 ? prev - 1 : 1));
+
   return (
     <section
-      className={`
-        flex flex-col lg:flex-row items-center justify-between gap-10
-        ${reverse ? "lg:flex-row-reverse" : ""}
-        max-w-[1200px] mx-auto px-6 py-16
-      `}
+      className={`flex flex-col items-center justify-between gap-10 max-w-[1400px] mx-auto py-16 ${
+        reverse ? "lg:flex-row-reverse" : "lg:flex-row"
+      }`}
     >
       {/* Image Section */}
       <div className="w-full lg:w-1/2 flex justify-center items-center">
@@ -58,12 +65,45 @@ export default function ProductFeature({
 
         <p className="text-gray-600 max-w-md">{description}</p>
 
-        <Link
-          href={href}
-          className="mt-4 px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition"
-        >
-          {buttonText}
-        </Link>
+        {/* Conditionally show price */}
+        {price && (
+          <p className="text-2xl font-semibold text-gray-800">${price}</p>
+        )}
+
+        {/* Show quantity + button only if quantity is defined */}
+        {typeof quantity !== "undefined" ? (
+          <div className="flex items-center gap-4">
+            <div className="flex items-center bg-gray-200 px-4 py-2 rounded-md">
+              <button
+                onClick={decrement}
+                className="text-gray-700 font-bold px-2 hover:text-primary"
+              >
+                –
+              </button>
+              <span className="mx-3 font-semibold">{count}</span>
+              <button
+                onClick={increment}
+                className="text-gray-700 font-bold px-2 hover:text-primary"
+              >
+                +
+              </button>
+            </div>
+
+            <Link
+              href={href}
+              className="px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
+            >
+              {buttonText}
+            </Link>
+          </div>
+        ) : (
+          <Link
+            href={href}
+            className="mt-4 px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
+          >
+            {buttonText}
+          </Link>
+        )}
       </div>
     </section>
   );
