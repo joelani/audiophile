@@ -96,7 +96,11 @@ export default function ProductFeature({
         ) : (
           <Link
             href={href}
-            className="mt-4 px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onAddToCart) onAddToCart();
+            }}
+            className="px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
           >
             {buttonText}
           </Link>
