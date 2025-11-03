@@ -9,12 +9,14 @@ import ProductCollection from "@/components/layouts/ProductCollection";
 import ProductFeature from "@/components/layouts/ProductFeature";
 import data from "@/data/db.json";
 import CartModal from "@/components/layouts/CartModal";
+import { useCart } from "../../../context/CartContext";
 
 export default function ProductPage({ params }) {
   const { slug } = use(params); // ✅ unwrap params safely
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const handleAddToCart = () => setIsCartOpen(true);
+  const { addToCart } = useCart();
 
   const product = data.data.find((p) => p.slug === slug);
 

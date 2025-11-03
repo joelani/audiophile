@@ -2,9 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useCart } from "../../context/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartItems, toggleCart } = useCart();
+  const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -67,13 +70,22 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <Link href="/cart" className="">
+        <Link
+          href="/cart"
+          className="relative p-2 hover:text-primary transition"
+        >
           <Image
             src="/assets/carts.svg"
             alt="Cart icon"
             width={20}
             height={20}
+            onClick={toggleCart}
           />
+          {itemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+              {itemCount}
+            </span>
+          )}
         </Link>
 
         {/* MObile menu */}

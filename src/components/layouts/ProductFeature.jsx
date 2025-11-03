@@ -12,11 +12,11 @@ export default function ProductFeature({
   buttonText = "See Product",
   href = "#",
   isNew = false,
-  price, // optional
-  quantity, // optional
+  price,
+  quantity,
+  onAddToCart, // ✅ new prop
 }) {
   const [count, setCount] = useState(quantity || 1);
-
   const increment = () => setCount((prev) => prev + 1);
   const decrement = () => setCount((prev) => (prev > 1 ? prev - 1 : 1));
 
@@ -41,11 +41,7 @@ export default function ProductFeature({
       </div>
 
       {/* Text Section */}
-      <div
-        className={`w-full lg:w-1/2 flex flex-col justify-center ${
-          reverse ? "lg:items-end text-right" : "lg:items-start text-left"
-        } items-center text-center space-y-6`}
-      >
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left space-y-6">
         {isNew && (
           <p className="uppercase tracking-[10px] text-primary font-semibold">
             New Product
@@ -55,12 +51,6 @@ export default function ProductFeature({
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase leading-snug">
           {title}
         </h2>
-
-        {subtitle && (
-          <h3 className="text-xl md:text-2xl text-gray-600 font-medium">
-            {subtitle}
-          </h3>
-        )}
 
         <p className="text-gray-600 max-w-md">{description}</p>
 
@@ -86,21 +76,18 @@ export default function ProductFeature({
               </button>
             </div>
 
-            <Link
-              href={href}
+            {/* ✅ Add-to-cart button triggers modal */}
+            <button
+              onClick={() => addToCart(product)}
               className="px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
             >
               {buttonText}
-            </Link>
+            </button>
           </div>
         ) : (
           <Link
             href={href}
-            onClick={(e) => {
-              e.preventDefault();
-              if (onAddToCart) onAddToCart();
-            }}
-            className="px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
+            className="mt-4 px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
           >
             {buttonText}
           </Link>
