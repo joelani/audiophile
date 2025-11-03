@@ -22,7 +22,7 @@ export default function ProductFeature({
 
   return (
     <section
-      className={`flex flex-col items-center justify-between gap-10 max-w-[1400px] mx-auto py-16 ${
+      className={`flex flex-col items-center justify-between gap-10 max-w-[1100px] mx-auto py-16 ${
         reverse ? "lg:flex-row-reverse" : "lg:flex-row"
       }`}
     >
@@ -40,12 +40,11 @@ export default function ProductFeature({
         </div>
       </div>
 
-      {/* Text Content */}
+      {/* Text Section */}
       <div
-        className="
-          w-full lg:w-1/2 flex flex-col justify-center
-          items-center lg:items-start text-center lg:text-left space-y-6
-        "
+        className={`w-full lg:w-1/2 flex flex-col justify-center ${
+          reverse ? "lg:items-end text-right" : "lg:items-start text-left"
+        } items-center text-center space-y-6`}
       >
         {isNew && (
           <p className="uppercase tracking-[10px] text-primary font-semibold">
@@ -65,12 +64,10 @@ export default function ProductFeature({
 
         <p className="text-gray-600 max-w-md">{description}</p>
 
-        {/* Conditionally show price */}
         {price && (
           <p className="text-2xl font-semibold text-gray-800">${price}</p>
         )}
 
-        {/* Show quantity + button only if quantity is defined */}
         {typeof quantity !== "undefined" ? (
           <div className="flex items-center gap-4">
             <div className="flex items-center bg-gray-200 px-4 py-2 rounded-md">

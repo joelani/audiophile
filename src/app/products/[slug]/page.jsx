@@ -32,14 +32,14 @@ export default async function ProductPage({ params }) {
       />
 
       {/* features & desc */}
-      <div className="flex justify-between items-center gap-8 max-lg:gap-16">
+      <div className="flex justify-center mx-8 items-center gap-8 max-lg:gap-16">
         <div className="w-1/2">
           <h3 className="text-4xl font-semibold mb-4 uppercase">Features</h3>
           <p className="whitespace-pre-line text-gray-700">
             {product.features}
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center w-1/2">
+        <div className="flex max-lg:flex-col items-center justify-center w-1/2">
           <h3 className="text-4xl font-semibold mb-4 uppercase">in the box</h3>
           <ul className="space-y-2">
             {product.includes.map((include, i) => (
@@ -53,6 +53,8 @@ export default async function ProductPage({ params }) {
           </ul>
         </div>
       </div>
+
+      {/* Image gallery */}
     </div>
   );
 }
