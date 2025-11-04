@@ -1,4 +1,4 @@
-import { mutation } from "../_generated/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 export const createOrder = mutation({
@@ -10,6 +10,7 @@ export const createOrder = mutation({
     city: v.string(),
     country: v.string(),
     zip: v.string(),
+    paymentMethod: v.string(),
     items: v.array(
       v.object({
         id: v.string(),
@@ -22,13 +23,15 @@ export const createOrder = mutation({
     shipping: v.number(),
     tax: v.number(),
     total: v.number(),
+    status: v.string(),
+    createdAt: v.string(),
   },
   handler: async (ctx, args) => {
-    const orderId = await ctx.db.insert("orders", {
-      ...args,
-      status: "pending",
-      createdAt: new Date().toISOString(),
-    });
-    return orderId;
+    // Insert the new order into Convex
+    const orderId = await ctx.db.insert("orders", args);
+
+    console.log(" Order saved successfully:", orderId);
+
+    return { success: true, orderId };
   },
 });

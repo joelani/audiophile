@@ -1,4 +1,3 @@
-// convex/schema.js
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -11,6 +10,7 @@ export default defineSchema({
     city: v.string(),
     country: v.string(),
     zip: v.string(),
+    paymentMethod: v.string(),
     items: v.array(
       v.object({
         id: v.string(),

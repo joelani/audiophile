@@ -8,7 +8,7 @@
  * @module
  */
 
-import type * as functions_checkout from "../functions/checkout.js";
+import type * as checkout from "../checkout.js";
 
 import type {
   ApiFromModules,
@@ -25,7 +25,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  "functions/checkout": typeof functions_checkout;
+  checkout: typeof checkout;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

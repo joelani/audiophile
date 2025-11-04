@@ -11,6 +11,7 @@ export default function CheckoutPage() {
   const createOrder = useMutation(api.checkout.createOrder);
   const { cartItems, clearCart } = useCart();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,11 +23,13 @@ export default function CheckoutPage() {
     paymentMethod: "e-Money",
   });
 
+  // handle form input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // calculate totals
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -35,11 +38,41 @@ export default function CheckoutPage() {
   const tax = subtotal * 0.1;
   const total = subtotal + shipping + tax;
 
-  const handleSubmit = (e) => {
+  // handle submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setShowModal(true);
-    // Next step: Send to Convex mutation
+    if (!formData.name || !formData.email || !formData.address) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      // ✅ save order to Convex
+      await createOrder({
+        ...formData,
+        items: cartItems.map((item) => ({
+          id: item.name, // you can replace this with item.id or slug
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        subtotal,
+        shipping,
+        tax,
+        total,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      });
+
+      clearCart();
+      setShowModal(true);
+    } catch (error) {
+      console.error("Order creation failed:", error);
+      alert("Something went wrong while placing your order.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -138,9 +171,10 @@ export default function CheckoutPage() {
 
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-primary-light text-white py-3 sm:py-4 rounded-md uppercase tracking-wide text-sm sm:text-base transition"
+            disabled={loading}
+            className="w-full bg-primary hover:bg-primary-light text-white py-3 sm:py-4 rounded-md uppercase tracking-wide text-sm sm:text-base transition disabled:opacity-70"
           >
-            Continue & Pay
+            {loading ? "Processing..." : "Continue & Pay"}
           </button>
         </form>
 
@@ -184,10 +218,11 @@ export default function CheckoutPage() {
           </div>
 
           <button
-            type="submit"
-            className="w-full mt-6 bg-primary hover:bg-primary-light text-white py-3 rounded-md uppercase tracking-wide transition"
+            onClick={handleSubmit}
+            disabled={loading}
+            className="w-full mt-6 bg-primary hover:bg-primary-light text-white py-3 rounded-md uppercase tracking-wide transition disabled:opacity-70"
           >
-            Continue & Pay
+            {loading ? "Processing..." : "Continue & Pay"}
           </button>
         </aside>
       </div>
@@ -201,6 +236,7 @@ export default function CheckoutPage() {
   );
 }
 
+/* ------------------------------- Subcomponents ------------------------------ */
 function Input({ label, name, value, onChange }) {
   return (
     <div className="flex flex-col gap-1">
