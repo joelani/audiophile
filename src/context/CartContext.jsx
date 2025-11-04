@@ -1,52 +1,74 @@
+// context/CartContext.jsx
 "use client";
 import { createContext, useContext, useState } from "react";
 
-// 1️⃣ Create context
 const CartContext = createContext();
 
-// 2️⃣ Create provider component
-export function CartProvider({ children }) {
+export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // ✅ Toggle modal visibility
-  const toggleCart = () => setIsCartOpen((prev) => !prev);
+  const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
+  const toggleCart = () => setIsCartOpen((prev) => !prev); // ✅ NEW
 
-  // ✅ Add an item to the cart
-  const addToCart = (product) => {
+  const addToCart = (item) => {
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.name === product.name);
+      const existing = prev.find((p) => p.name === item.name);
       if (existing) {
-        return prev.map((item) =>
-          item.name === product.name
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+        return prev.map((p) =>
+          p.name === item.name
+            ? { ...p, quantity: p.quantity + item.quantity }
+            : p
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, item];
     });
-    setIsCartOpen(true); // open modal automatically
+    openCart();
   };
 
-  // ✅ Clear all items
+  const removeFromCart = (name) => {
+    setCartItems((prev) => prev.filter((p) => p.name !== name));
+  };
+
   const clearCart = () => setCartItems([]);
 
-  const value = {
-    cartItems,
-    addToCart,
-    clearCart,
-    isCartOpen,
-    toggleCart,
-    closeCart,
+  const increaseQuantity = (name) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-}
+  const decreaseQuantity = (name) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.name === name
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+          : item
+      )
+    );
+  };
 
-// 3️⃣ Export hook for easy access
-export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) throw new Error("useCart must be used within a CartProvider");
-  return context;
-}
+  return (
+    <CartContext.Provider
+      value={{
+        cartItems,
+        isCartOpen,
+        openCart,
+        closeCart,
+        toggleCart, // ✅ added here too
+        addToCart,
+        removeFromCart,
+        clearCart,
+        increaseQuantity,
+        decreaseQuantity,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
+
+export const useCart = () => useContext(CartContext);

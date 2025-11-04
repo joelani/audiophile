@@ -13,7 +13,7 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <section className="bg-dark">
+    <section className="bg-dark fixed top-0 right-0 left-0 z-100 lg:mb-16">
       <nav className="py-6 relative max-w-[1440px] px-6 flex items-center justify-between z-30 bg-dark mx-auto transition-all border-b border-gray-600">
         <button
           aria-label="menu-btn"
@@ -70,10 +70,7 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <Link
-          href="/cart"
-          className="relative p-2 hover:text-primary transition"
-        >
+        <Link href="" className="relative p-2 hover:text-primary transition">
           <Image
             src="/assets/carts.svg"
             alt="Cart icon"

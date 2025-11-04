@@ -1,4 +1,5 @@
 "use client";
+import { useCart } from "context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,13 +13,25 @@ export default function ProductFeature({
   buttonText = "See Product",
   href = "#",
   isNew = false,
-  price,
-  quantity,
-  onAddToCart, // ✅ new prop
+  price = null,
+  quantity = false,
+  onClick = null,
 }) {
-  const [count, setCount] = useState(quantity || 1);
+  const [count, setCount] = useState(1);
+  const { addToCart } = useCart();
+
   const increment = () => setCount((prev) => prev + 1);
   const decrement = () => setCount((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleAddToCart = () => {
+    if (!price) return; // do nothing if no price
+    addToCart({
+      name: title,
+      price,
+      image,
+      quantity: count,
+    });
+  };
 
   return (
     <section
@@ -26,7 +39,7 @@ export default function ProductFeature({
         reverse ? "lg:flex-row-reverse" : "lg:flex-row"
       }`}
     >
-      {/* Image Section */}
+      {/* 🖼️ Image Section */}
       <div className="w-full lg:w-1/2 flex justify-center items-center">
         <div className="bg-gray-100 rounded-lg p-8 w-full">
           <Image
@@ -40,7 +53,7 @@ export default function ProductFeature({
         </div>
       </div>
 
-      {/* Text Section */}
+      {/* 📝 Text Section */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left space-y-6">
         {isNew && (
           <p className="uppercase tracking-[10px] text-primary font-semibold">
@@ -52,13 +65,21 @@ export default function ProductFeature({
           {title}
         </h2>
 
+        {subtitle && (
+          <h3 className="text-xl md:text-2xl text-gray-600 font-medium">
+            {subtitle}
+          </h3>
+        )}
+
         <p className="text-gray-600 max-w-md">{description}</p>
 
+        {/*  Show price only if defined */}
         {price && (
           <p className="text-2xl font-semibold text-gray-800">${price}</p>
         )}
 
-        {typeof quantity !== "undefined" ? (
+        {/*  Show quantity + button only if quantity=true */}
+        {quantity ? (
           <div className="flex items-center gap-4">
             <div className="flex items-center bg-gray-200 px-4 py-2 rounded-md">
               <button
@@ -76,15 +97,15 @@ export default function ProductFeature({
               </button>
             </div>
 
-            {/* ✅ Add-to-cart button triggers modal */}
             <button
-              onClick={() => addToCart(product)}
+              onClick={onClick || handleAddToCart} // ✅ use provided or default
               className="px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"
             >
               {buttonText}
             </button>
           </div>
         ) : (
+          // 📎 Normal link mode
           <Link
             href={href}
             className="mt-4 px-8 py-3 bg-primary text-white uppercase tracking-widest hover:bg-primary-light transition rounded-md"

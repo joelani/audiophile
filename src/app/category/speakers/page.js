@@ -11,7 +11,7 @@ export default function SpeakersPage() {
 
   return (
     <div className="bg-gray-100">
-      <header className="w-full bg-black text-white">
+      <header className="w-full bg-black text-white lg:mt-7">
         <h1 className="max-w-[1440px] text-center uppercase text-7xl mx-auto md:py-16 py-8">
           Speakers
         </h1>

@@ -3,6 +3,8 @@ import "./globals.css";
 import Footer from "@/components/layouts/Footer";
 import Navbar from "@/components/layouts/Navbar";
 import { CartProvider } from "../context/CartContext";
+import { ConvexClientProvider } from "./ConvexClientProvider";
+import CartModal from "@/components/layouts/CartModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +28,14 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {" "}
+        {/* <ConvexClientProvider> */}
         <CartProvider>
           <Navbar />
+          <CartModal /> 
           {children}
           <Footer />
         </CartProvider>
+        {/* </ConvexClientProvider> */}
       </body>
     </html>
   );

@@ -8,8 +8,8 @@ import ImageGrid from "@/components/layouts/ImageGrid";
 import ProductCollection from "@/components/layouts/ProductCollection";
 import ProductFeature from "@/components/layouts/ProductFeature";
 import data from "@/data/db.json";
-import CartModal from "@/components/layouts/CartModal";
 import { useCart } from "../../../context/CartContext";
+import CartModal from "@/components/layouts/CartModal";
 
 export default function ProductPage({ params }) {
   const { slug } = use(params); // ✅ unwrap params safely
