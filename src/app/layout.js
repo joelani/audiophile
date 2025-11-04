@@ -28,14 +28,14 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {" "}
-        {/* <ConvexClientProvider> */}
-        <CartProvider>
-          <Navbar />
-          <CartModal /> 
-          {children}
-          <Footer />
-        </CartProvider>
-        {/* </ConvexClientProvider> */}
+        <ConvexClientProvider>
+          <CartProvider>
+            <Navbar />
+            <CartModal />
+            {children}
+            <Footer />
+          </CartProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );

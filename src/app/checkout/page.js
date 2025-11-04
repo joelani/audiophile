@@ -1,11 +1,14 @@
 "use client";
 
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import ThankYouModal from "@/components/layouts/ThankYouModal";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import { useState } from "react";
 
 export default function CheckoutPage() {
+  const createOrder = useMutation(api.checkout.createOrder);
   const { cartItems, clearCart } = useCart();
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
