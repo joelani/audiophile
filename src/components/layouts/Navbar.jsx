@@ -85,46 +85,56 @@ const Navbar = () => {
           )}
         </Link>
 
-        {/* MObile menu */}
+        {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="mobile-menu absolute top-[70px] left-0 w-full bg-dark p-6 ">
-            <ul className="flex flex-col space-y-4 text-white text-lg">
-              <li>
-                <Link className="hover:text-white/70 transition" href="/">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-white/70 transition"
-                  href="/category/headphones"
-                >
-                  Headphones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-white/70 transition"
-                  href="/category/speakers"
-                >
-                  Speakers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-white/70 transition"
-                  href="/category/earphones"
-                >
-                  Earphones
-                </Link>
-              </li>
-            </ul>
-            <button
-              type="button"
-              className="bg-white text-gray-700 mt-6 inline md:hidden text-sm hover:opacity-90 active:scale-95 transition-all w-40 h-11 rounded-full"
+          <div
+            className="fixed inset-0 z-[80] bg-black/50 md:hidden"
+            onClick={() => setIsMenuOpen(false)} // ← close when clicking backdrop
+          >
+            <div
+              className="absolute top-[70px] left-0 w-full bg-dark p-6"
+              onClick={(e) => e.stopPropagation()} // ← prevent closing when clicking menu itself
             >
-              Get started
-            </button>
+              <ul className="flex flex-col space-y-4 text-white text-lg">
+                <li>
+                  <Link className="hover:text-white/70 transition" href="/">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:text-white/70 transition"
+                    href="/category/headphones"
+                  >
+                    Headphones
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:text-white/70 transition"
+                    href="/category/speakers"
+                  >
+                    Speakers
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:text-white/70 transition"
+                    href="/category/earphones"
+                  >
+                    Earphones
+                  </Link>
+                </li>
+              </ul>
+
+              <button
+                type="button"
+                className="bg-white text-gray-700 mt-6 inline md:hidden text-sm 
+        hover:opacity-90 active:scale-95 transition-all w-40 h-11 rounded-full"
+              >
+                Get started
+              </button>
+            </div>
           </div>
         )}
       </nav>

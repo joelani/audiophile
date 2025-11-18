@@ -1,7 +1,7 @@
 "use client";
 
-import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { useMutation } from "convex/react";
 import ThankYouModal from "@/components/layouts/ThankYouModal";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
@@ -48,21 +48,18 @@ export default function CheckoutPage() {
 
     try {
       setLoading(true);
-      // ✅ save order to Convex
+
+      // ✅ save order to Convex (matches schema)
       await createOrder({
-        ...formData,
-        items: cartItems.map((item) => ({
-          id: item.name, // you can replace this with item.id or slug
+        formData, // all your billing/shipping details
+        cartItems: cartItems.map((item) => ({
+          id: item.name, // or item.id / slug if available
           name: item.name,
           price: item.price,
           quantity: item.quantity,
+          image: item.image || "/default.png",
         })),
-        subtotal,
-        shipping,
-        tax,
-        total,
-        status: "pending",
-        createdAt: new Date().toISOString(),
+        total, // total amount
       });
 
       clearCart();
