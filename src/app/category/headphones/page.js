@@ -26,7 +26,7 @@ export default function HeadphonesPage() {
             image={product.image.desktop.replace("./", "/")}
             reverse={i % 2 !== 0} // alternate layout for variety
             buttonText="See Product"
-            href={`/products/${product.slug}`} // ✅ dynamic slug
+            href={`/products/${product.slug}`} //  dynamic slug
             isNew={product.new}
           />
         ))}

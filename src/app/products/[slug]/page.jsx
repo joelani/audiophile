@@ -33,7 +33,7 @@ export default function ProductPage({ params }) {
   ];
 
   return (
-    <div className="py-10 max-w-[1440px] mx-auto">
+    <div className="pt-16 lg:pt-20 max-w-[1440px] mx-auto">
       <CartModal
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}

@@ -71,7 +71,7 @@ export default function ProductFeature({
           </h3>
         )}
 
-        <p className="text-gray-600 max-w-md">{description}</p>
+        <p className="text-gray-600 max-w-md max-md:px-4">{description}</p>
 
         {/*  Show price only if defined */}
         {price && (
